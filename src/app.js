@@ -44,6 +44,80 @@ app.get('/contracts/:id',getProfile ,async (req, res) =>{
     }
 })
 
+/**
+ * @route GET /contracts
+ * @middleware getProfile - Middleware to ensure the user is authenticated and profile is loaded.
+ * @returns {Object[]} 200 - List of active (non-terminated) contracts where the profile is either the client or contractor using the loggedin user's profile.
+ * @returns {Error} 500 - Internal server error if something goes wrong while fetching the contracts
+ *
+ * This endpoint returns all non-terminated contracts associated with the authenticated user,
+ * either as a client or a contractor. Requires profile information to be present on the request.
+ */
 
+app.get('/contracts', getProfile, async (req, res) => {
+    try {
+        const {Contract} = req.app.get('models')
+        const profileId = req.profile.id
+
+        const contracts = await Contract.findAll(
+            {
+                where: {
+                    status: {
+                        [Op.ne]: 'terminated'
+                    },
+                    [Op.or]: [
+                        {ClientId: profileId},
+                        {ContractorId: profileId}
+                    ]
+                },
+            }
+        )
+        res.status(200).json(contracts)
+    }
+    catch (error) {
+        console.error('Error fetching contracts:', error)
+        res.status(500).json({error: 'Internal server error please try again.'})
+    }
+})
+
+/**
+ * @route GET /jobs/unpaid
+ * @middleware getProfile - Middleware to ensure the user is authenticated and profile is loaded.
+ * @returns {Object[]} 200 - List of unpaid jobs associated with the user's contracts.
+ * @returns {Error} 500 - Internal server error if something goes wrong while fetching the jobs.
+ *
+ * This endpoint retrieves all jobs that have not been paid yet, filtering them based on the user's contracts.
+ * Requires profile information to be present on the request.
+ */
+app.get('/jobs/unpaid', getProfile, async (req, res) => {
+    try {
+        const {Job, Contract} = req.app.get('models')
+        const profileId = req.profile.id
+        console.log('Fetching unpaid jobs for profile ID:', profileId)
+        const jobs = await Job.findAll({
+            where: {
+                paid: {
+                    [Op.not]: true
+                },
+            },
+            include:[{
+                model:Contract,
+                where:{
+                    status:{
+                        [Op.ne]: 'terminated',
+                    },
+                    [Op.or]: [
+                        {ClientId: profileId},
+                        {ContractorId: profileId}
+                    ]
+                }
+            }]
+        })
+        res.status(200).json(jobs)
+    } catch (error) {
+        console.error('Error fetching unpaid jobs:', error)
+        res.status(500).json({error: 'Internal server error please try again.'})
+    }
+})
 
 module.exports = app;
