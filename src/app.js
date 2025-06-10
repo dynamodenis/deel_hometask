@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const {sequelize} = require('./model')
 const {getProfile} = require('./middleware/getProfile');
-const {Op, where} = require('sequelize');
+const {Op} = require('sequelize');
 
 const app = express();
 
@@ -39,7 +39,7 @@ app.get('/contracts/:id',getProfile ,async (req, res) =>{
         if(!contract) return res.status(404).json({error: 'Contract not found or you do not have access to it.'})
         res.json(contract)
     } catch (error) {
-        console.error('Error in getProfile middleware:', error)
+        console.error('Error fetching contract:', error)
         return res.status(500).json({error: 'Internal server error please try again.'})
     }
 })
