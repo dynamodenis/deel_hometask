@@ -1,12 +1,19 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const {Op} = require('sequelize');
+const swaggerJSDoc = require('swagger-jsdoc');
 const {sequelize} = require('./model')
 const {getProfile} = require('./middleware/getProfile');
-const {Op} = require('sequelize');
+const swaggerOptions = require('./config/swagger');
+const swaggerUI = require('swagger-ui-express');
+
+
+const swaggerSpec = swaggerJSDoc(swaggerOptions)
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))
 
 app.set('sequelize', sequelize)
 app.set('models', sequelize.models)

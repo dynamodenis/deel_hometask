@@ -114,30 +114,53 @@ const swaggerOptions = {
             },
           },
         },
-        ValidationError: {
+        Jobs: {
           type: 'object',
           properties: {
-            error: {
+            id: {
+              type: 'integer',
+              description: 'Job ID',
+              example: 1,
+            },
+            description: {
               type: 'string',
-              description: 'Validation error message',
-              example: 'Validation failed',
+              description: 'Job description',
+              example: 'Looking for an experienced web developer to build a website.',
             },
-            details: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  field: {
-                    type: 'string',
-                    example: 'terms',
-                  },
-                  message: {
-                    type: 'string',
-                    example: 'Terms field is required',
-                  },
-                },
-              },
+            price: {
+              type: 'number',
+              format: 'decimal',
+              description: 'Job price',
+              example: 500.00,
             },
+            paid: {
+              type: 'boolean',
+              description: 'Payment status',
+              example: false,
+            },
+            paymentDate: {
+              type: 'date-time',
+              format: 'date-time',
+              description: 'Date when the job was paid',
+              example: '2023-01-01T00:00:00.000Z',
+            },
+            createdAt: {
+              type: 'date-time',
+              format: 'date-time',
+              description: 'Creation timestamp',
+              example: '2023-01-01T00:00:00.000Z',
+            },
+            updatedAt: {
+              type: 'date-time',
+              format: 'date-time',
+              description: 'Last update timestamp',
+              example: '2023-01-01T00:00:00.000Z',
+            },
+            ContractId: {
+              type: 'integer',
+              description: 'Contract ID',
+              example: 1,
+            }
           },
         },
       },
@@ -221,7 +244,7 @@ const swaggerOptions = {
     './routes/contracts.js',
     './routes/profiles.js',
     './routes/jobs.js',
-  ], // Paths to files containing OpenAPI definitions
+  ],
 };
 
 module.exports = swaggerOptions;
