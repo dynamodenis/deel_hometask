@@ -11,7 +11,7 @@ const jobRoutes = require('./routes/jobs');
 const balanceRoutes = require('./routes/balances');
 const adminRoutes = require('./routes/admin');
 
-// Debug: Try a more specific swagger configuration
+// Try a more specific swagger configuration
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',

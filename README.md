@@ -94,3 +94,11 @@ For example, writing some unit tests or a simple frontend demonstrating calls to
 When you've finished the assignment, zip your repo (make sure to include the .git folder) and send us the zip file.
 
 Thank you and good luck! 🙏
+
+# Denis Mbugua Submission of the test
+
+I finished the requested apis, tested them and documented them using swagger js.
+
+Moved the routes into a folder in routes to handle them separate since they can eventually grow.
+
+I also added a tests folder to handle unit tests that can be run by ```npm test```
