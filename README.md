@@ -102,3 +102,5 @@ I finished the requested apis, tested them and documented them using swagger js.
 Moved the routes into a folder in routes to handle them separate since they can eventually grow.
 
 I also added a tests folder to handle unit tests that can be run by ```npm test```
+
+In order for you to see the APIs exposed on swagger, run  ``` npm start``` then got to ```http://localhost:3001/api-docs/```
